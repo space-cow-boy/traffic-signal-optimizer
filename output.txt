@@ -1,0 +1,121 @@
+﻿============================================================
+  Adaptive Traffic Signal Optimization with Emergency Preemption
+  Using Graph-Based Scheduling | Team Syntax | DAA Project
+============================================================
+
+[STEP 1] Building Road Network Graph...
+========= ROAD NETWORK GRAPH =========
+Junction 0 [A - City Center] connects to:
+   --> Junction 1 [B - North Gate] | Distance: 10 km | Width: 3 lanes
+   --> Junction 3 [D - South Park] | Distance: 8 km | Width: 4 lanes
+Junction 1 [B - North Gate] connects to:
+   --> Junction 0 [A - City Center] | Distance: 10 km | Width: 3 lanes
+   --> Junction 2 [C - East Market] | Distance: 5 km | Width: 2 lanes
+   --> Junction 3 [D - South Park] | Distance: 7 km | Width: 2 lanes
+Junction 2 [C - East Market] connects to:
+   --> Junction 1 [B - North Gate] | Distance: 5 km | Width: 2 lanes
+   --> Junction 4 [E - West Hospital] | Distance: 6 km | Width: 2 lanes
+Junction 3 [D - South Park] connects to:
+   --> Junction 0 [A - City Center] | Distance: 8 km | Width: 4 lanes
+   --> Junction 4 [E - West Hospital] | Distance: 12 km | Width: 3 lanes
+   --> Junction 1 [B - North Gate] | Distance: 7 km | Width: 2 lanes
+Junction 4 [E - West Hospital] connects to:
+   --> Junction 2 [C - East Market] | Distance: 6 km | Width: 2 lanes
+   --> Junction 3 [D - South Park] | Distance: 12 km | Width: 3 lanes
+======================================
+
+[STEP 2] Finding Shortest Path from City Center to West Hospital...
+Shortest Path: A - City Center --> D - South Park --> E - West Hospital
+
+[STEP 3] Running Adaptive Priority Scheduler (4 cycles)...
+
+========= ADAPTIVE SCHEDULER =========
+
+--- Cycle 1 ---
+  [AGING BOOST] Lane-B South waiting too long (35s > 30s) -> priority +20
+  [AGING BOOST] Lane-D West waiting too long (40s > 30s) -> priority +20
+  GREEN SIGNAL  --> Lane-D West
+  Vehicle Count : 5
+  Waiting Time  : 40 sec
+  Road Width    : 2 lanes
+  Priority Score: 152
+
+--- Cycle 2 ---
+  [AGING BOOST] Lane-B South waiting too long (45s > 30s) -> priority +20
+  GREEN SIGNAL  --> Lane-B South
+  Vehicle Count : 8
+  Waiting Time  : 45 sec
+  Road Width    : 2 lanes
+  Priority Score: 173
+
+--- Cycle 3 ---
+  [AGING BOOST] Lane-A North waiting too long (40s > 30s) -> priority +20
+  GREEN SIGNAL  --> Lane-A North
+  Vehicle Count : 15
+  Waiting Time  : 40 sec
+  Road Width    : 3 lanes
+  Priority Score: 173
+
+--- Cycle 4 ---
+  [AGING BOOST] Lane-C East waiting too long (40s > 30s) -> priority +20
+  GREEN SIGNAL  --> Lane-C East
+  Vehicle Count : 20
+  Waiting Time  : 40 sec
+  Road Width    : 4 lanes
+  Priority Score: 184
+
+======================================
+
+[STEP 4] Triggering Emergency Preemption...
+
+=========================================
+  *** EMERGENCY VEHICLE DETECTED ***
+=========================================
+  From: A - City Center  To: E - West Hospital
+Shortest Path: A - City Center --> D - South Park --> E - West Hospital
+
+  Signals on path overridden to GREEN:
+    A - City Center --> GREEN
+    D - South Park --> GREEN
+    E - West Hospital --> GREEN
+
+  Normal scheduling will resume after clearance
+=========================================
+
+[STEP 5] Running Baseline Fixed-Time Scheduler (4 cycles)...
+
+========= BASELINE FIXED-TIME SCHEDULER =========
+
+--- Cycle 1 ---
+  GREEN SIGNAL  --> Lane-A North
+  Fixed Time    : 30 sec
+  (No priority, no aging, no adaptive control)
+
+--- Cycle 2 ---
+  GREEN SIGNAL  --> Lane-B South
+  Fixed Time    : 30 sec
+  (No priority, no aging, no adaptive control)
+
+--- Cycle 3 ---
+  GREEN SIGNAL  --> Lane-C East
+  Fixed Time    : 30 sec
+  (No priority, no aging, no adaptive control)
+
+--- Cycle 4 ---
+  GREEN SIGNAL  --> Lane-D West
+  Fixed Time    : 30 sec
+  (No priority, no aging, no adaptive control)
+
+  Average Waiting Time (Baseline): 15 sec
+==================================================
+
+
+========= PERFORMANCE COMPARISON =========
+Metric              Adaptive    Fixed-Time
+------------------------------------------
+Avg Wait Time       15 sec     15 sec
+Emergency Handled   YES         NO
+Starvation Prev     YES         NO
+==========================================
+
+[DONE] Simulation complete.

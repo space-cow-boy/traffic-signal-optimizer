@@ -1,0 +1,16 @@
+// sample_map.txt
+// Description: Sample road network data for the traffic signal optimizer
+// Format: JUNCTION id name | ROAD from to distance width
+
+JUNCTION 0 A-CityCenter
+JUNCTION 1 B-NorthGate
+JUNCTION 2 C-EastMarket
+JUNCTION 3 D-SouthPark
+JUNCTION 4 E-WestHospital
+
+ROAD 0 1 10 3
+ROAD 1 2 5 2
+ROAD 0 3 8 4
+ROAD 2 4 6 2
+ROAD 3 4 12 3
+ROAD 1 3 7 2
